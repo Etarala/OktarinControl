@@ -15,4 +15,3 @@ for _, group_df in filtered_df.groupby(filtered_df.iloc[:, 2]):
     print(group_df.to_string(index=False))
     # Вывод суммы значений в тринадцатом столбце для текущей группы
     print(f"Сумма значений в столбце 13: {group_df.iloc[:, 12].sum()}\n")
-input()
