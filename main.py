@@ -19,7 +19,7 @@ df.rename(columns={
 }, inplace=True)
 
 # Фильтрация строк по условиям
-filtered_df = df[df['*Тип операции*'] == 'Начисление']
+filtered_df = df[df['*Тип операции*'] == 'Начисление'].copy()
 
 # Удаление ненужных столбцов
 columns_to_drop = [
@@ -34,15 +34,29 @@ columns_to_drop = [
 ]
 filtered_df.drop(columns=columns_to_drop, inplace=True)
 
-# Подсчет количества повторений для каждого значения в столбце "Счет"
+# Подсчет количества повторений для каждого значения в столбце "*Счет*"
 counts = filtered_df['*Счет*'].value_counts()
 
 # Фильтрация по количеству повторений
 filtered_df = filtered_df[filtered_df['*Счет*'].isin(counts.index[counts > 1])]
 
+# Открытие текстового файла для записи результата
+with open('Отчет.txt', 'w', encoding='utf-8') as file:
+    # Группировка по столбцу "*Счет*" и итерация по группам
+    for _, group_df in filtered_df.groupby('*Счет*'):
+        # Запись строк с текущим повторяющимся значением в файл
+        file.write(group_df.to_string(index=False))
+        file.write('\n')
+        # Запись суммы значений в столбце "*Начислено бонусов*" для текущей группы
+        file.write(f"Всего начислено бонусов по счету: {group_df['*Начислено бонусов*'].sum()}\n\n")
+
+
+# Вывод в консоль
 # Группировка по столбцу "Счет" и итерация по группам
-for _, group_df in filtered_df.groupby('*Счет*'):
+#for _, group_df in filtered_df.groupby('*Счет*'):
     # Вывод строк с текущим повторяющимся значением
-    print(group_df.to_string(index=False))
+#    print(group_df.to_string(index=False))
     # Вывод суммы значений в столбце "Количество бонусов" для текущей группы
-    print(f"Всего начислено бонусов по счету: {group_df['*Начислено бонусов*'].sum()}\n")
+#    print(f"Всего начислено бонусов по счету: {group_df['*Начислено бонусов*'].sum()}\n")
+#input()
+
