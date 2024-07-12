@@ -1,3 +1,5 @@
 !/venv/
 !/dist/
 !/Отчет.txt
+.idea/misc.xml
+.idea/OktarinControl.iml
