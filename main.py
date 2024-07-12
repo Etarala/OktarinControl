@@ -38,7 +38,7 @@ filtered_df.drop(columns=columns_to_drop, inplace=True)
 counts = filtered_df['*Счет*'].value_counts()
 
 # Фильтрация по количеству повторений
-filtered_df = filtered_df[filtered_df['*Счет*'].isin(counts.index[counts > 1])]
+filtered_df = filtered_df[filtered_df['*Счет*'].isin(counts.index[counts > 5])]
 
 # Открытие текстового файла для записи результата
 with open('Отчет.txt', 'w', encoding='utf-8') as file:
